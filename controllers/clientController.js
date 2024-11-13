@@ -153,6 +153,4 @@ exports.excluirCliente = (req, res) => {
     workbook.Sheets['Clientes'] = updatedWorksheet;
     XLSX.writeFile(workbook, filePath);
     res.json({ message: 'Cliente excluído com sucesso!' });
-
-    
 };
