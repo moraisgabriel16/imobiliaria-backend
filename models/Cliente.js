@@ -1,11 +1,32 @@
-const express = require('express');
-const router = express.Router();
-const clientController = require('../controllers/clientController');
+// models/Cliente.js
+const mongoose = require('mongoose');
 
-router.get('/clientes', clientController.listarClientes);
-router.post('/clientes', clientController.cadastrarCliente);
-router.get('/clientes/:cpf', clientController.detalhesCliente);
-router.put('/clientes/:cpf', clientController.atualizarCliente); // Rota para atualizar cliente
-router.delete('/clientes/:cpf', clientController.excluirCliente); // Rota para excluir cliente
+const clienteSchema = new mongoose.Schema({
+    cpf: { type: String, required: true, unique: true },
+    nome: { type: String, required: true },
+    dataNascimento: Date,
+    telefonePrincipal: String,
+    telefoneSecundario: String,
+    email: String,
+    enderecoImovel: String,
+    torre: String,
+    apartamento: String,
+    tipoImovel: String,
+    areaImovel: String,
+    quartos: Number,
+    banheiros: Number,
+    vagasGaragem: Number,
+    dataInicioContrato: Date,
+    dataTerminoContrato: Date,
+    valorAluguel: Number,
+    vencimentoBoleto: Number,
+    formaPagamento: String,
+    taxaCondominio: Number,
+    taxaIptu: Number,
+    multaAtraso: Number,
+    indiceReajuste: String,
+    tipoCliente: { type: String, enum: ['Proprietário', 'Inquilino'] },
+    numeroRegistroEnel: String
+});
 
-module.exports = router;
+module.exports = mongoose.model('Cliente', clienteSchema);
