@@ -7,10 +7,9 @@ const mongoose = require('mongoose');
 // Inicializa o aplicativo Express
 const app = express();
 
-// Middleware de CORS para permitir requisições de qualquer origem
-// Adicionando configurações mais específicas de CORS se necessário
+// Middleware de CORS para permitir requisições apenas do frontend no Vercel
 app.use(cors({
-    origin: '*', // Alternativamente, pode restringir a 'https://imobiliaria-green.vercel.app' para mais segurança
+    origin: 'https://imobiliaria-green.vercel.app', // Permite apenas a origem do frontend no Vercel
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204
