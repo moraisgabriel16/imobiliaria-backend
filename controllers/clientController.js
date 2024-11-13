@@ -143,13 +143,16 @@ exports.excluirCliente = (req, res) => {
     const worksheet = workbook.Sheets['Clientes'];
     const data = XLSX.utils.sheet_to_json(worksheet);
 
-    const updatedData = data.filter((cliente) => cliente.cpf !== cpf);
-    if (data.length === updatedData.length) {
+    const clienteIndex = data.findIndex((cliente) => cliente.cpf === cpf);
+    if (clienteIndex === -1) {
         return res.status(404).json({ error: 'Cliente não encontrado' });
     }
 
-    const updatedWorksheet = XLSX.utils.json_to_sheet(updatedData);
+    data.splice(clienteIndex, 1);
+    const updatedWorksheet = XLSX.utils.json_to_sheet(data);
     workbook.Sheets['Clientes'] = updatedWorksheet;
     XLSX.writeFile(workbook, filePath);
     res.json({ message: 'Cliente excluído com sucesso!' });
+
+    
 };
