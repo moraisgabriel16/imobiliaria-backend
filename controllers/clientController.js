@@ -40,16 +40,6 @@ exports.listarClientes = (req, res) => {
 exports.cadastrarCliente = (req, res) => {
     const novoCliente = req.body;
 
-    // Validações
-    if (!validarCPF(novoCliente.cpf)) {
-        return res.status(400).json({ error: 'CPF inválido. Use o formato XXX.XXX.XXX-XX.' });
-    }
-    if (novoCliente.email && !validarEmail(novoCliente.email)) {
-        return res.status(400).json({ error: 'Email inválido.' });
-    }
-    if (!validarTelefone(novoCliente.telefonePrincipal)) {
-        return res.status(400).json({ error: 'Telefone principal inválido. Use o formato (XX) XXXXX-XXXX.' });
-    }
 
     let workbook;
     if (fs.existsSync(filePath)) {
