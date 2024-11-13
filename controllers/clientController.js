@@ -6,6 +6,24 @@ const fs = require('fs');
 // Caminho para o arquivo Excel
 const filePath = path.join(__dirname, '../data/clientes.xlsx');
 
+// Função para validar CPF
+const validarCPF = (cpf) => {
+    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+    return cpfRegex.test(cpf);
+};
+
+// Função para validar Email
+const validarEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
+// Função para validar Telefone
+const validarTelefone = (telefone) => {
+    const telefoneRegex = /^\(?\d{2}\)?[\s-]?\d{4,5}-\d{4}$/;
+    return telefoneRegex.test(telefone);
+};
+
 // Função para listar todos os clientes
 exports.listarClientes = (req, res) => {
     if (!fs.existsSync(filePath)) {
@@ -21,6 +39,17 @@ exports.listarClientes = (req, res) => {
 // Função para cadastrar um novo cliente
 exports.cadastrarCliente = (req, res) => {
     const novoCliente = req.body;
+
+    // Validações
+    if (!validarCPF(novoCliente.cpf)) {
+        return res.status(400).json({ error: 'CPF inválido. Use o formato XXX.XXX.XXX-XX.' });
+    }
+    if (novoCliente.email && !validarEmail(novoCliente.email)) {
+        return res.status(400).json({ error: 'Email inválido.' });
+    }
+    if (!validarTelefone(novoCliente.telefonePrincipal)) {
+        return res.status(400).json({ error: 'Telefone principal inválido. Use o formato (XX) XXXXX-XXXX.' });
+    }
 
     let workbook;
     if (fs.existsSync(filePath)) {
@@ -74,6 +103,16 @@ exports.atualizarCliente = (req, res) => {
 
     if (!fs.existsSync(filePath)) {
         return res.status(404).json({ error: 'Arquivo de clientes não encontrado' });
+    }
+
+    if (clienteAtualizado.cpf && !validarCPF(clienteAtualizado.cpf)) {
+        return res.status(400).json({ error: 'CPF inválido. Use o formato XXX.XXX.XXX-XX.' });
+    }
+    if (clienteAtualizado.email && !validarEmail(clienteAtualizado.email)) {
+        return res.status(400).json({ error: 'Email inválido.' });
+    }
+    if (clienteAtualizado.telefonePrincipal && !validarTelefone(clienteAtualizado.telefonePrincipal)) {
+        return res.status(400).json({ error: 'Telefone principal inválido. Use o formato (XX) XXXXX-XXXX.' });
     }
 
     const workbook = XLSX.readFile(filePath);
