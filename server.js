@@ -9,10 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+console.log("Conectando ao MongoDB com URI:", process.env.MONGODB_URI);
+
 mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000
+    serverSelectionTimeoutMS: 10000, // Aumenta o tempo limite de seleção do servidor
+    keepAlive: true,                // Mantém a conexão ativa
 }).then(() => {
     console.log('Conectado ao MongoDB');
 }).catch((error) => {
