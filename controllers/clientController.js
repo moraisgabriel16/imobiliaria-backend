@@ -1,18 +1,16 @@
 // controllers/clientController.js
 const Cliente = require('../models/Cliente');
 
-// Função para listar todos os clientes
 exports.listarClientes = async (req, res) => {
     try {
         const clientes = await Cliente.find();
-        res.json(clientes);
+        res.json({ data: clientes });
     } catch (error) {
         console.error('Erro ao listar clientes:', error);
         res.status(500).json({ error: 'Erro ao listar clientes' });
     }
 };
 
-// Função para cadastrar um novo cliente
 exports.cadastrarCliente = async (req, res) => {
     try {
         const novoCliente = new Cliente(req.body);
@@ -24,7 +22,6 @@ exports.cadastrarCliente = async (req, res) => {
     }
 };
 
-// Função para obter os detalhes de um cliente pelo CPF
 exports.detalhesCliente = async (req, res) => {
     try {
         const { cpf } = req.params;
@@ -40,7 +37,6 @@ exports.detalhesCliente = async (req, res) => {
     }
 };
 
-// Função para atualizar um cliente pelo CPF
 exports.atualizarCliente = async (req, res) => {
     try {
         const { cpf } = req.params;
@@ -56,7 +52,6 @@ exports.atualizarCliente = async (req, res) => {
     }
 };
 
-// Função para excluir um cliente pelo CPF
 exports.excluirCliente = async (req, res) => {
     try {
         const { cpf } = req.params;
