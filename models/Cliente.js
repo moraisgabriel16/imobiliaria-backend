@@ -2,8 +2,8 @@
 const mongoose = require('mongoose');
 
 const clienteSchema = new mongoose.Schema({
-    cpf: { type: String, required: true, unique: true },
-    nome: { type: String, required: true },
+    cpf: { type: String, unique: true },          // CPF não obrigatório, mas único
+    nome: String,                                  // Nome opcional
     dataNascimento: Date,
     telefonePrincipal: String,
     telefoneSecundario: String,
