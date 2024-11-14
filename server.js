@@ -12,8 +12,7 @@ app.use(express.json());
 console.log("Conectando ao MongoDB com URI:", process.env.MONGODB_URI);
 
 mongoose.connect(process.env.MONGODB_URI, {
-    serverSelectionTimeoutMS: 10000, // Aumenta o tempo limite de seleção do servidor
-    keepAlive: true,                // Mantém a conexão ativa
+    serverSelectionTimeoutMS: 10000 // Aumenta o tempo limite de seleção do servidor
 }).then(() => {
     console.log('Conectado ao MongoDB');
 }).catch((error) => {
