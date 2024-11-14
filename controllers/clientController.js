@@ -14,8 +14,8 @@ exports.listarClientes = async (req, res) => {
 exports.cadastrarCliente = async (req, res) => {
     try {
         const novoCliente = new Cliente(req.body);
-        await novoCliente.save();
-        res.status(201).json({ message: 'Cliente cadastrado com sucesso!' });
+        const clienteSalvo = await novoCliente.save();
+        res.status(201).json({ message: 'Cliente cadastrado com sucesso!', data: clienteSalvo });
     } catch (error) {
         console.error('Erro ao cadastrar cliente:', error);
         res.status(500).json({ error: 'Erro ao cadastrar cliente' });
@@ -27,7 +27,7 @@ exports.detalhesCliente = async (req, res) => {
         const { cpf } = req.params;
         const cliente = await Cliente.findOne({ cpf });
         if (cliente) {
-            res.json(cliente);
+            res.json({ data: cliente });
         } else {
             res.status(404).json({ error: 'Cliente não encontrado' });
         }
@@ -42,7 +42,7 @@ exports.atualizarCliente = async (req, res) => {
         const { cpf } = req.params;
         const clienteAtualizado = await Cliente.findOneAndUpdate({ cpf }, req.body, { new: true });
         if (clienteAtualizado) {
-            res.json({ message: 'Cliente atualizado com sucesso!' });
+            res.json({ message: 'Cliente atualizado com sucesso!', data: clienteAtualizado });
         } else {
             res.status(404).json({ error: 'Cliente não encontrado' });
         }
@@ -57,7 +57,7 @@ exports.excluirCliente = async (req, res) => {
         const { cpf } = req.params;
         const clienteExcluido = await Cliente.findOneAndDelete({ cpf });
         if (clienteExcluido) {
-            res.json({ message: 'Cliente excluído com sucesso!' });
+            res.json({ message: 'Cliente excluído com sucesso!', data: clienteExcluido });
         } else {
             res.status(404).json({ error: 'Cliente não encontrado' });
         }
